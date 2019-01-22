@@ -138,6 +138,8 @@ public class ExtendedM3uWriterTest {
         // then
         String generatedPlaylist = outputStream.toString(Encoding.UTF_8.value);
 
+        // TODO: there is no independent header in the playlist
+
         String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:6\n" +
                 "#EXT-X-MEDIA:LANGUAGE=\"en\",AUTOSELECT=YES,FORCED=NO,TYPE=AUDIO,URI=\"uri1\",GROUP-ID=\"audiogroup\",DEFAULT=YES,NAME=\"English (US)\"\n" +
