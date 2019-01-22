@@ -1,0 +1,17 @@
+version: 2.0
+
+actions:
+  build:
+    type: script
+    options:
+      commands:
+      - "./gradlew clean build \
+      -Parchiva.credentials.user='${Q_ARCHIVA_USER}' \
+      -Parchiva.credentials.pass='${Q_SECRET_ARCHIVA_PASSWORD}' \
+      -Dorg.gradle.jvmargs='-Xms1024m -Xmx8192m' \
+      --console plain"
+
+pipelines:
+  default:
+    actions:
+    - build
