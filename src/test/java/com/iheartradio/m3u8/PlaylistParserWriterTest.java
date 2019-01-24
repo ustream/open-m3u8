@@ -193,8 +193,8 @@ public class PlaylistParserWriterTest {
         String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:4\n" +
                 "#EXT-X-TARGETDURATION:10\n" +
-                "#EXT-X-MEDIA-SEQUENCE:0\n"+
                 "#EXT-X-ALLOW-CACHE:NO\n" +
+                "#EXT-X-MEDIA-SEQUENCE:0\n"+
                 "#EXT-X-BYTERANGE:0@10\n" +
                 "#EXTINF:9.009,\n" +
                 "http://media.example.com/first.ts\n" +
