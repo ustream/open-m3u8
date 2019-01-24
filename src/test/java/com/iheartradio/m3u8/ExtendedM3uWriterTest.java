@@ -42,8 +42,8 @@ public class ExtendedM3uWriterTest {
         String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:1\n" +
                 "#EXT-X-TARGETDURATION:0\n" +
-                "#EXT-X-MEDIA-SEQUENCE:0\n" +
                 "#EXT-X-ALLOW-CACHE:NO\n" +
+                "#EXT-X-MEDIA-SEQUENCE:0\n" +
                 "#EXT-X-MAP:URI=\"uri/valami1.m4vh\"\n" +
                 "#EXT-X-PROGRAM-DATE-TIME:1970-01-18T21:43:59.264+00:00\n" +
                 "#EXTINF:6,title1\n" +
@@ -82,8 +82,8 @@ public class ExtendedM3uWriterTest {
         String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:1\n" +
                 "#EXT-X-TARGETDURATION:0\n" +
-                "#EXT-X-MEDIA-SEQUENCE:0\n" +
                 "#EXT-X-ALLOW-CACHE:NO\n" +
+                "#EXT-X-MEDIA-SEQUENCE:0\n" +
                 "#EXTINF:6,title1\n" +
                 "uri/valami1.m4v\n" +
                 "#EXTINF:6,title2\n" +
