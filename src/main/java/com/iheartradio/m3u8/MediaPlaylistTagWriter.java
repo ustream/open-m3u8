@@ -165,7 +165,7 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
         };
     };
 
-    static final IExtTagWriter EXT_X_ALLOW_CACHE = new MediaPlaylistTagWriter() {
+    static final IExtTagWriter EXT_X_ALLOW_CACHE = new ExtTagWriter() {
         @Override
         public String getTag() {
             return Constants.EXT_X_ALLOW_CACHE_TAG;
@@ -175,12 +175,14 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
         boolean hasData() {
             return true;
         }
-        
-        @Override
-        public void doWrite(TagWriter tagWriter, Playlist playlist, MediaPlaylist mediaPlaylist){
 
-            // deprecated
-        };
+        @Override
+        public void write(TagWriter tagWriter, Playlist playlist) throws IOException {
+            // The EXT-X-ALLOW-CACHE tag was removed in protocol version 7.
+            if (playlist.getCompatibilityVersion() < 7) {
+                tagWriter.writeTag(getTag(), "NO");
+            }
+        }
     };
 
     // media segment tags
@@ -204,12 +206,19 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
                         writeByteRange(tagWriter, trackData.getByteRange());
                     }
 
+                    writeExtProgramDateTime(tagWriter, trackData);
                     writeExtinf(tagWriter, playlist, trackData);
                     tagWriter.writeLine(trackData.getUri());
                 }
             }
         }
     };
+
+    private static void writeExtProgramDateTime(TagWriter tagWriter, TrackData trackData) throws IOException {
+        if(trackData.getProgramDateTime() != null && !trackData.getProgramDateTime().isEmpty()) {
+            tagWriter.writeTag(Constants.EXT_X_PROGRAM_DATE_TIME_TAG, trackData.getProgramDateTime());
+        }
+    }
 
     private static void writeExtinf(TagWriter tagWriter, Playlist playlist, TrackData trackData) throws IOException {
         final StringBuilder builder = new StringBuilder();

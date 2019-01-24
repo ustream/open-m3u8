@@ -1,0 +1,31 @@
+version: 2.0
+
+actions:
+  build:
+    type: script
+    options:
+      commands:
+      - "./gradlew clean build \
+      --refresh-dependencies \
+      --no-daemon \
+      --console plain \
+      -Dorg.gradle.jvmargs='-Xms1024m -Xmx8192m' \
+      -PGRADLE_USER_HOME='/root/.gradle' \
+      -Dorg.gradle.jvmargs='-Xms1024m -Xmx8192m'"
+    runtime:
+      type: docker
+      options:
+        image: registry.ng.bluemix.net/build_tools/ci-base-images/jvm-trusty:latest
+  archiva:
+    type: archiva_uploader
+    options:
+      paths:
+      - build/libs/*.jar:${Q_PROJECT_NAME}/${RELEASE_VERSION}/*.jar
+
+
+pipelines:
+  default:
+    actions:
+    - build
+    - archiva
+

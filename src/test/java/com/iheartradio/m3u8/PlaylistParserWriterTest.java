@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class PlaylistParserWriterTest {
@@ -128,9 +129,10 @@ public class PlaylistParserWriterTest {
         assertEquals("hi/iframe.m3u8", hiXIFrameStreamInf.getUri());
         
         String writtenPlaylist = writePlaylist(playlist);
-        assertEquals(
-                "#EXTM3U\n" +
+
+        String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:1\n" +
+                "#EXT-X-ALLOW-CACHE:NO\n" +
                 "#EXT-X-STREAM-INF:BANDWIDTH=1280000\n" +
                 "low/audio-video.m3u8\n" +
                 "#EXT-X-STREAM-INF:BANDWIDTH=2560000\n" +
@@ -141,8 +143,9 @@ public class PlaylistParserWriterTest {
                 "audio-only.m3u8\n" +
                 "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=86000,URI=\"low/iframe.m3u8\"\n" +
                 "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=150000,URI=\"mid/iframe.m3u8\"\n" +
-                "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=550000,URI=\"hi/iframe.m3u8\"\n",
-                writtenPlaylist);
+                "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=550000,URI=\"hi/iframe.m3u8\"\n";
+
+        assertThat("Invalid playlist", expectedPlaylist, is(writtenPlaylist));
     }
 
     @Test
@@ -181,28 +184,29 @@ public class PlaylistParserWriterTest {
             byteRanges.add(track.getByteRange());
         }
 
-        List<ByteRange> expected = Arrays.asList(
+        List<ByteRange> expectedByteRanges = Arrays.asList(
                 new ByteRange(0, 10),
                 new ByteRange(20),
                 new ByteRange(30)
         );
 
-        assertEquals(expected, byteRanges);
-
-        assertEquals(
-                "#EXTM3U\n" +
+        String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:4\n" +
                 "#EXT-X-TARGETDURATION:10\n" +
                 "#EXT-X-MEDIA-SEQUENCE:0\n"+
+                "#EXT-X-ALLOW-CACHE:NO\n" +
                 "#EXT-X-BYTERANGE:0@10\n" +
-                "#EXTINF:9.009\n" +
+                "#EXTINF:9.009,\n" +
                 "http://media.example.com/first.ts\n" +
                 "#EXT-X-BYTERANGE:20\n" +
-                "#EXTINF:9.009\n" +
+                "#EXTINF:9.009,\n" +
                 "http://media.example.com/first.ts\n" +
                 "#EXT-X-BYTERANGE:30\n" +
-                "#EXTINF:3.003\n" +
+                "#EXTINF:3.003,\n" +
                 "http://media.example.com/first.ts\n" +
-                "#EXT-X-ENDLIST\n", writePlaylist(playlist));
+                "#EXT-X-ENDLIST\n";
+
+        assertThat("Invalid byte ranges", byteRanges, is(expectedByteRanges));
+        assertThat("Invalid playlist", writePlaylist(playlist), is(expectedPlaylist));
     }
 }
