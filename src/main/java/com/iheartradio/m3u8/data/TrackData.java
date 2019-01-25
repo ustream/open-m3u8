@@ -76,7 +76,7 @@ public class TrackData {
     }
 
     public Builder buildUpon() {
-        return new Builder(getUri(), mTrackInfo, mEncryptionData, mHasDiscontinuity, mMapInfo, mByteRange);
+        return new Builder(getUri(), mTrackInfo, mEncryptionData, mHasDiscontinuity, mMapInfo, mByteRange, mProgramDateTime);
     }
 
     @Override
@@ -123,13 +123,14 @@ public class TrackData {
         public Builder() {
         }
 
-        private Builder(String uri, TrackInfo trackInfo, EncryptionData encryptionData, boolean hasDiscontinuity, MapInfo mapInfo, ByteRange byteRange) {
+        private Builder(String uri, TrackInfo trackInfo, EncryptionData encryptionData, boolean hasDiscontinuity, MapInfo mapInfo, ByteRange byteRange, String programDateTime) {
             mUri = uri;
             mTrackInfo = trackInfo;
             mEncryptionData = encryptionData;
             mHasDiscontinuity = hasDiscontinuity;
             mMapInfo = mapInfo;
             mByteRange = byteRange;
+            mProgramDateTime = programDateTime;
         }
 
         public Builder withUri(String url) {
