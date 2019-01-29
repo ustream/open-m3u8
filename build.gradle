@@ -5,6 +5,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'net.researchgate:gradle-release:2.6.0'
     }
 }
 
@@ -19,6 +20,7 @@ repositories {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'maven'
+apply plugin: 'net.researchgate.release'
 
 idea {
     module {

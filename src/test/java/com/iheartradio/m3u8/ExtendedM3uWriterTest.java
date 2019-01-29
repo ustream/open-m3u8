@@ -155,4 +155,64 @@ public class ExtendedM3uWriterTest {
 
         assertThat("Invalid generated playlist", generatedPlaylist, is(expectedPlaylist));
     }
+
+    @Test
+    public void testWithoutIndependentSegmentsMasterPlaylistWriting() throws Exception {
+        // given
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PlaylistWriter extendedM3uWriter = new PlaylistWriter(outputStream, Format.EXT_M3U, Encoding.UTF_8);
+
+        String url1 = "https://host/playlist/auditorium/channel/1524/4/playlist.m3u8";
+        PlaylistData playlistData1 = new PlaylistData.Builder()
+                .withPath(url1)
+                .withStreamInfo(new StreamInfo.Builder().withCodecs(Arrays.asList("mp4a.40.2,avc1.77.31")).withBandwidth(356352).withResolution(new Resolution(864, 486)).withClosedCaptions("NONE").withAudio("audiogroup").build()).withUri(url1)
+                .build();
+
+        String url2 = "https://host/playlist/auditorium/channel/1524/2/playlist.m3u8";
+        PlaylistData playlistData2 = new PlaylistData.Builder()
+                .withPath(url2)
+                .withStreamInfo(new StreamInfo.Builder().withCodecs(Arrays.asList("mp4a.40.2,avc1.77.31")).withBandwidth(1444864).withResolution(new Resolution(1280, 720)).withClosedCaptions("NONE").withAudio("audiogroup").build()).withUri(url2)
+                .build();
+
+        String url3 = "https://host/playlist/auditorium/channel/1524/7/playlist.m3u8";
+        PlaylistData playlistData3 = new PlaylistData.Builder()
+                .withPath(url3)
+                .withStreamInfo(new StreamInfo.Builder().withCodecs(Arrays.asList("mp4a.40.2,avc1.77.30")).withBandwidth(252928).withResolution(new Resolution(640, 360)).withClosedCaptions("NONE").withAudio("audiogroup").build()).withUri(url3)
+                .build();
+
+        String url4 = "https://host/playlist/auditorium/channel/1524/5/playlist.m3u8";
+        PlaylistData playlistData4 = new PlaylistData.Builder()
+                .withPath(url4)
+                .withStreamInfo(new StreamInfo.Builder().withCodecs(Arrays.asList("mp4a.40.2,avc1.77.21")).withBandwidth(172032).withResolution(new Resolution(448, 252)).withClosedCaptions("NONE").withAudio("audiogroup").build()).withUri(url4)
+                .build();
+
+        MediaData mediaData1 = new MediaData.Builder().withLanguage("en").withAutoSelect(true).withForced(false).withType(MediaType.AUDIO).withUri("uri1").withGroupId("audiogroup").withDefault(true).withName("English (US)").build();
+        MediaData mediaData2 = new MediaData.Builder().withLanguage("en").withAutoSelect(true).withForced(false).withType(MediaType.AUDIO).withUri("uri2").withGroupId("audiogroup").withDefault(true).withName("English (US)").build();
+
+        MasterPlaylist masterPlaylist = new MasterPlaylist.Builder().withPlaylists(Arrays.asList(playlistData1, playlistData2, playlistData3, playlistData4)).withMediaData(Arrays.asList(mediaData1, mediaData2)).build();
+
+        Playlist playlist = new Playlist.Builder().withCompatibilityVersion(6).withMasterPlaylist(masterPlaylist).build();
+
+        // when
+        extendedM3uWriter.write(playlist);
+
+        // then
+        String generatedPlaylist = outputStream.toString(Encoding.UTF_8.value);
+
+        String expectedPlaylist = "#EXTM3U\n" +
+                "#EXT-X-VERSION:6\n" +
+                "#EXT-X-MEDIA:LANGUAGE=\"en\",AUTOSELECT=YES,FORCED=NO,TYPE=AUDIO,URI=\"uri1\",GROUP-ID=\"audiogroup\",DEFAULT=YES,NAME=\"English (US)\"\n" +
+                "#EXT-X-MEDIA:LANGUAGE=\"en\",AUTOSELECT=YES,FORCED=NO,TYPE=AUDIO,URI=\"uri2\",GROUP-ID=\"audiogroup\",DEFAULT=YES,NAME=\"English (US)\"\n" +
+                "#EXT-X-ALLOW-CACHE:NO\n" +
+                "#EXT-X-STREAM-INF:CODECS=\"mp4a.40.2,avc1.77.31\",RESOLUTION=864x486,BANDWIDTH=356352,AUDIO=\"audiogroup\",CLOSED-CAPTIONS=\"NONE\"\n" +
+                "https://host/playlist/auditorium/channel/1524/4/playlist.m3u8\n" +
+                "#EXT-X-STREAM-INF:CODECS=\"mp4a.40.2,avc1.77.31\",RESOLUTION=1280x720,BANDWIDTH=1444864,AUDIO=\"audiogroup\",CLOSED-CAPTIONS=\"NONE\"\n" +
+                "https://host/playlist/auditorium/channel/1524/2/playlist.m3u8\n" +
+                "#EXT-X-STREAM-INF:CODECS=\"mp4a.40.2,avc1.77.30\",RESOLUTION=640x360,BANDWIDTH=252928,AUDIO=\"audiogroup\",CLOSED-CAPTIONS=\"NONE\"\n" +
+                "https://host/playlist/auditorium/channel/1524/7/playlist.m3u8\n" +
+                "#EXT-X-STREAM-INF:CODECS=\"mp4a.40.2,avc1.77.21\",RESOLUTION=448x252,BANDWIDTH=172032,AUDIO=\"audiogroup\",CLOSED-CAPTIONS=\"NONE\"\n" +
+                "https://host/playlist/auditorium/channel/1524/5/playlist.m3u8\n";
+
+        assertThat("Invalid generated playlist", generatedPlaylist, is(expectedPlaylist));
+    }
 }
