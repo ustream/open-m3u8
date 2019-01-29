@@ -171,3 +171,7 @@ Cobertura is configured to report the line coverage:
 gradle cobertura
 ```
 producing the coverage report at `build/reports/cobertura/index.html`
+
+## Release
+
+Use ```gradle release``` command in order to create a new release tag.
