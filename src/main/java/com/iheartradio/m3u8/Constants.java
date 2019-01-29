@@ -23,6 +23,7 @@ final class Constants {
 
     public static final String EXTM3U_TAG = "EXTM3U";
     public static final String EXT_X_VERSION_TAG = "EXT-X-VERSION";
+    public static final String EXT_X_INDEPENDENT_SEGMENTS_TAG = "EXT-X-INDEPENDENT-SEGMENTS";
 
     // master playlist tags
 

@@ -93,4 +93,23 @@ abstract class ExtTagWriter implements IExtTagWriter {
         }
         
     };
+
+    static final IExtTagWriter EXT_X_INDEPENDENT_SEGMENTS_HANDLER = new ExtTagWriter() {
+        @Override
+        boolean hasData() {
+            return false;
+        }
+
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_INDEPENDENT_SEGMENTS_TAG;
+        }
+
+        @Override
+        public void write(TagWriter tagWriter, Playlist playlist) throws IOException {
+            if (playlist.getMasterPlaylist() != null && playlist.getMasterPlaylist().isIndependentSegments()) {
+                tagWriter.writeTag(getTag());
+            }
+        }
+    };
 }

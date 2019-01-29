@@ -128,7 +128,7 @@ public class ExtendedM3uWriterTest {
         MediaData mediaData1 = new MediaData.Builder().withLanguage("en").withAutoSelect(true).withForced(false).withType(MediaType.AUDIO).withUri("uri1").withGroupId("audiogroup").withDefault(true).withName("English (US)").build();
         MediaData mediaData2 = new MediaData.Builder().withLanguage("en").withAutoSelect(true).withForced(false).withType(MediaType.AUDIO).withUri("uri2").withGroupId("audiogroup").withDefault(true).withName("English (US)").build();
 
-        MasterPlaylist masterPlaylist = new MasterPlaylist.Builder().withPlaylists(Arrays.asList(playlistData1, playlistData2, playlistData3, playlistData4)).withMediaData(Arrays.asList(mediaData1, mediaData2)).build();
+        MasterPlaylist masterPlaylist = new MasterPlaylist.Builder().withIndependentSegments(true).withPlaylists(Arrays.asList(playlistData1, playlistData2, playlistData3, playlistData4)).withMediaData(Arrays.asList(mediaData1, mediaData2)).build();
 
         Playlist playlist = new Playlist.Builder().withCompatibilityVersion(6).withMasterPlaylist(masterPlaylist).build();
 
@@ -138,10 +138,9 @@ public class ExtendedM3uWriterTest {
         // then
         String generatedPlaylist = outputStream.toString(Encoding.UTF_8.value);
 
-        // TODO: there is no independent header in the playlist
-
         String expectedPlaylist = "#EXTM3U\n" +
                 "#EXT-X-VERSION:6\n" +
+                "#EXT-X-INDEPENDENT-SEGMENTS\n" +
                 "#EXT-X-MEDIA:LANGUAGE=\"en\",AUTOSELECT=YES,FORCED=NO,TYPE=AUDIO,URI=\"uri1\",GROUP-ID=\"audiogroup\",DEFAULT=YES,NAME=\"English (US)\"\n" +
                 "#EXT-X-MEDIA:LANGUAGE=\"en\",AUTOSELECT=YES,FORCED=NO,TYPE=AUDIO,URI=\"uri2\",GROUP-ID=\"audiogroup\",DEFAULT=YES,NAME=\"English (US)\"\n" +
                 "#EXT-X-ALLOW-CACHE:NO\n" +

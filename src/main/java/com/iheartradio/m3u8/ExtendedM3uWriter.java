@@ -17,6 +17,7 @@ class ExtendedM3uWriter extends Writer {
         putWriters(
                 ExtTagWriter.EXTM3U_HANDLER,
                 ExtTagWriter.EXT_X_VERSION_HANDLER,
+                ExtTagWriter.EXT_X_INDEPENDENT_SEGMENTS_HANDLER,
                 MediaPlaylistTagWriter.EXT_X_PLAYLIST_TYPE,
                 MediaPlaylistTagWriter.EXT_X_TARGETDURATION,
                 MediaPlaylistTagWriter.EXT_X_START,
