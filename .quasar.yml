@@ -16,11 +16,11 @@ actions:
       type: docker
       options:
         image: registry.ng.bluemix.net/build_tools/ci-base-images/jvm-trusty:latest
-  archiva:
-    type: archiva_uploader
-    options:
-      paths:
-      - build/libs/*.jar:${Q_PROJECT_NAME}/${RELEASE_VERSION}/*.jar
+  #archiva:
+  #  type: archiva_uploader
+  #  options:
+  #    paths:
+  #    - build/libs/*.jar:${Q_PROJECT_NAME}/${RELEASE_VERSION}/*.jar
 
 
 pipelines:

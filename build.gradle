@@ -29,7 +29,7 @@ idea {
     }
 }
 
-group 'tv.ustream'
+group 'com.iheartradio.m3u8'
 archivesBaseName = 'open-m3u8'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
