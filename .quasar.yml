@@ -5,7 +5,7 @@ actions:
     type: script
     options:
       commands:
-      - "./gradlew clean build writePom \
+      - "./gradlew clean build install \
       --refresh-dependencies \
       --no-daemon \
       --console plain \
@@ -21,6 +21,7 @@ actions:
     options:
       paths:
       - build/libs/*.jar:${Q_PROJECT_NAME}/${RELEASE_VERSION}/*.jar
+      - build/poms/*.xml:${Q_PROJECT_NAME}/${RELEASE_VERSION}/${Q_PROJECT_NAME}-${RELEASE_VERSION}.pom
 
 
 pipelines:
