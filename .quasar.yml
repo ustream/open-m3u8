@@ -5,7 +5,7 @@ actions:
     type: script
     options:
       commands:
-      - "./gradlew clean build \
+      - "./gradlew clean build install \
       --refresh-dependencies \
       --no-daemon \
       --console plain \
