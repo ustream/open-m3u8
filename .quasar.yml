@@ -21,7 +21,7 @@ actions:
     options:
       paths:
       - build/libs/*.jar:${Q_PROJECT_NAME}/${RELEASE_VERSION}/*.jar
-      - build/poms/pom-default.xml:${Q_PROJECT_NAME}/${RELEASE_VERSION}/${Q_PROJECT_NAME}-${RELEASE_VERSION}.pom
+      - build/poms/pom-default.xml:${Q_PROJECT_NAME}/${RELEASE_VERSION}/open-m3u8-${RELEASE_VERSION}.pom
 
 
 pipelines:
