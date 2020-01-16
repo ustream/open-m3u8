@@ -57,3 +57,10 @@ artifacts {
 task wrapper(type: Wrapper) {
     gradleVersion = "2.8"
 }
+
+task writePom {
+    doLast {
+        pom {
+        }.writeTo("$buildDir/poms/$rootProject.name-$version"+".pom")
+    }
+}
